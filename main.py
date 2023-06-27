@@ -40,3 +40,15 @@ trainer = Trainer(
 )
 
 trainer.train()
+
+#Evaluation starts here
+
+trainer.evaluate()
+
+text = "That was good point"
+inputs = tokenizer(text, padding=True, truncation=True, return_tensors='pt').to('cuda')
+outputs = model(**inputs)
+predictions = torch.nn.functional.softmax(outputs.logits, dim=-1)
+predictions = predictions.cpu().detach().numpy()
+
+trainer.save_model('CustomModel')
